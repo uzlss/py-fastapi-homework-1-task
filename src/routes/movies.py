@@ -13,6 +13,7 @@ router = APIRouter()
 NO_MOVIES_ERROR = "No movies found."
 NO_MOVIE_ID_ERROR = "Movie with the given ID was not found."
 
+
 @router.get(
     "/movies/",
     response_model=MovieListResponseSchema,
@@ -75,7 +76,5 @@ async def read_movie(movie_id: int, db: AsyncSession = Depends(get_db)):
     )
     movie = movie.scalars().first()
     if not movie:
-        raise HTTPException(
-            status_code=404, detail=NO_MOVIE_ID_ERROR
-        )
+        raise HTTPException(status_code=404, detail=NO_MOVIE_ID_ERROR)
     return MovieDetailResponseSchema.model_validate(movie)
